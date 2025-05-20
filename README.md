@@ -200,4 +200,3 @@ To publish this README (or other files) to a public repository, follow these ste
      - Go to **Settings → Secrets and variables → Actions → New repository secret**
      - Name: `PUBLIC_README_PAT`
      - Value: your new PAT
-
