@@ -2,18 +2,6 @@
 
 Embeddable online scheduling widget built with React.
 
-## To Run This App Locally
-
-1. clone the repo
-
-- run `npm install` to install dependencies
-- You'll need to make sure roostergrin/rooster-reminders-back-end is running
-- run `echo 'API_BASE_URL=http://localhost:3001/api/v1' > .dev.env`
-- Create a token for a practice in your database using the `schedule_widgets` API endpoint
-- Add the token into the `.dev.env` file as follows `TOKEN=YOUR_NEW_TOKEN`
-- Finally run `npm start`
-- The widget should now be running on port 8080 showing data for the practice from the token
-
 ## Usage
 
 ### Installation
@@ -129,31 +117,6 @@ To do this add the following query parameter to the URL, `schedule_consultation=
 
 The widget can be launched from any element on the page. All you have to do is add the class `openchair-widget`, then when that element is clicked, the widget will open.
 
-### Running Development App on a Public URL
-
-To do cross-browser testing on BrowserStack or other devices you can expose your local build on a public URL.
-
-1. Install [localtunnel](https://github.com/localtunnel/localtunnel)
-
-- Expose your backend on a public URL
-  - Start up a localtunnel process for the backend port `lt --port 3001`
-  - shut down the BE server
-  - In `config/application.yml` under development change the BASE_URL to be the localtunnel url you just started
-  - restart the server
-- Setup the frontend
-  - Change the `API_BASE_URL` env variable file
-  - Start up a localtunnel process for the frontend port `lt --port 8080`
-- Generate a new widget token
-  - The endpoint URL should be `LOCAL_TUNNEL_BACKEND_URL/admin/schedule_widgets`
-  - You map also need to generate a new authorization token before this will work
-  - generate the token using the practice id and localtunnel url for the front-end
-  - Take the new token and set the `TOKEN` environment variable in the `.dev.env` file
-- Restart the front-end server
-  - Use `npm run start:expose`
-- Your frontend should now be useable on the front-end localtunnel URL
-
-You should now see your app running on the localtunnel url for the front end app
-
 ### Google Analytics
 
 The widget captures several events using Google's global site tag. For data to be sent to a Google Analytics account, it requires the following code to be added to `<head>` of the site on any page where the widget is available with the appropriate measurement ID.
@@ -182,21 +145,3 @@ The table below describes the events and parameters that are captured.
 | rg_os_form_successful | Fires when form is successfully sent to backend.               | booked_datetime <br> booked_location     |
 | rg_os_form_error      | Fires if there is an error sending form                        | form_error                               |
 
-## Publishing the README to a Public Repository
-(expires 5-20-2026)
-
-To publish this README (or other files) to a public repository, follow these steps:
-
-1. ** The public repo**
-   - https://github.com/roostergrin/openchair_widget_public_readme
-
-2. **Generate a Personal Access Token (PAT)**
-   - Go to **Settings → Developer settings → Personal access tokens**.
-   - Generate a token with `repo` scope.
-   - Copy it—you'll need it for the next step.
-
-3. **Add the PAT as a secret in your private repo**
-   - In your private repository's settings:
-     - Go to **Settings → Secrets and variables → Actions → New repository secret**
-     - Name: `PUBLIC_README_PAT`
-     - Value: your new PAT
