@@ -1,6 +1,18 @@
-# OpenChair Online Scheduling Widget
+  # OpenChair Online Scheduling Widget
 
 Embeddable online scheduling widget built with React.
+
+## To Run This App Locally
+
+1. clone the repo
+
+- run `npm install` to install dependencies
+- You'll need to make sure roostergrin/rooster-reminders-back-end is running
+- run `echo 'API_BASE_URL=http://localhost:3001/api/v1' > .dev.env`
+- Create a token for a practice in your database using the `schedule_widgets` API endpoint
+- Add the token into the `.dev.env` file as follows `TOKEN=YOUR_NEW_TOKEN`
+- Finally run `npm start`
+- The widget should now be running on port 8080 showing data for the practice from the token
 
 ## Usage
 
@@ -62,27 +74,29 @@ Navigate to the source code of a Rooster Grin site that has been onboarded and a
 
 ### Patient Form Configuration
 
-| Property Name       | Type             | Value                                                                                                                                                                                                                  |
-| ------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| adultPatientsOnly   | Boolean          | If true, hides adult/child toggle and only creates new patients as adults                                                                                                                                              |
-| adultPatientsMinAge | Integer          | Ensures adult patient's age is greater than or equal to this number. Shows an error message next to the submit button: "Adult patients {{adultPatientsMinAge}} and over only. Please contact us for details."          |
-| extraQuestions      | Array of objects | Adds questions to the patient form. Each object must have `type`. Type `radio` must also have: `question`, `keyname`, `option1`, `option2`, `required`. Type `text` must also have: `question`, `keyname`, `required`. |
-| hideZipInput        | Boolean          | Hides zip input on patient form (unrelated to zip search).                                                                                                                                                             |
-| minorPatientsOnly   | Boolean          | If true, hides adult/child toggle and only creates new patients as children                                                                                                                                            |
-| minorPatientsMaxAge | Integer          | Ensures minor patient's age is less than or equal to this number. Shows an error message next to the submit button: "Minor patients {{minorPatientsMaxAge}} and under only. Please contact us for details."            |
-| policyCheckbox      | String           | Add a checkbox to the widget for users to agree to the privacy policy.                                                                                                                                                 |
-| phoneNumberRequired | Boolean          | If false, phone number will not be required on the patient form. Default value is true.                                                                                                                                |
-| postalCode          | Boolean          | If true, form will display field as "Postal Code" instead of "Zip Code".                                                                                                                                               |
-| textAreaLabel       | String           | Lets you customize the text area label. Defaults to "Message".                                                                                                                                                         |
-| textAreaRequired    | Boolean          | A value of `true` will make the text area a required field.                                                                                                                                                            |
+| Property Name       | Type             | Value                                                                                                                                                                                                                                  |
+| ------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| adultPatientsOnly   | Boolean          | If true, hides adult/child toggle and only creates new patients as adults                                                                                                                                                              |
+| adultPatientsMinAge | Integer          | Ensures adult patient's age is greater than or equal to this number. Shows an error message next to the submit button: "Adult patients {{adultPatientsMinAge}} and over only. Please contact us for details."                          |
+| extraQuestions      | Array of objects | Adds questions to the patient form. Each object must have `type`. Type `radio` must also have: `question`, `keyname`, `option1`, `option2`, `required`. Types `text` and `checkbox` must also have: `question`, `keyname`, `required`. |
+| hideZipInput        | Boolean          | Hides zip input on patient form (unrelated to zip search).                                                                                                                                                                             |
+| minorPatientsOnly   | Boolean          | If true, hides adult/child toggle and only creates new patients as children                                                                                                                                                            |
+| minorPatientsMaxAge | Integer          | Ensures minor patient's age is less than or equal to this number. Shows an error message next to the submit button: "Minor patients {{minorPatientsMaxAge}} and under only. Please contact us for details."                            |
+| minorPatientsMinAge | Integer          | Ensures minor patient's age is greater than or equal to this number. Shows an error message next to the submit button: "Minor patients {{minorPatientsMinAge}} and over only. Please contact us for details."                          |
+| policyCheckbox      | String           | Add a checkbox to the widget for users to agree to the privacy policy.                                                                                                                                                                 |
+| phoneNumberRequired | Boolean          | If false, phone number will not be required on the patient form. Default value is true.                                                                                                                                                |
+| postalCode          | Boolean          | If true, form will display field as "Postal Code" instead of "Zip Code".                                                                                                                                                               |
+| textAreaLabel       | String           | Lets you customize the text area label. Defaults to "Message".                                                                                                                                                                         |
+| textAreaRequired    | Boolean          | A value of `true` will make the text area a required field.                                                                                                                                                                            |
 
 ### Contact & Messages
 
-| Property Name              | Type    | Value                                                                                                                                                                                           |
-| -------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| contactPhoneNumber         | String  | This will add a phone number to the bottom of the widget container that clients can use to call the practice. Must be formated as all numbers and include the country code. e.g.: `14155551234` |
-| hideMessageOnMapRow        | Boolean | This will hide the same message as the contactPhoneNumber (or customMessage) on the bottom of the secondary widget container (MapRow)                                                           |
-| showPhoneMessageOnDropdown | Boolean | This will show the same message as the contactPhoneNumber (or customMessage) on the bottom of the initial widget container (dropdown)                                                           |
+| Property Name              | Type    | Value                                                                                                                                                                                                             |
+| -------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| customMessage              | String  | Adds a message to the bottom of the widget container on the appointment selection screen. Overrides contactPhoneNumber.                                                                                                                         |
+| contactPhoneNumber         | String  | Adds a generic message with a clickable phone number to the bottom of the widget container on the appointment selection screen. Must be formatted as all numbers and include the country code. e.g.: `14155551234`. Overridden by customMessage. |
+| hideMessageOnMapRow        | Boolean | This will hide the customMessage or contactPhoneNumber message on the appointment selection screen.                                                                                                               |
+| showPhoneMessageOnDropdown | Boolean | This will show the customMessage or contactPhoneNumber message on the bottom of the initial widget container.                                                                                                     |
 
 ### Widget Rendering
 
@@ -96,7 +110,7 @@ Protect your form submissions from automated spam and ensure genuine patient boo
 
 | Property Name    | Type    | Value                                        |
 | ---------------- | ------- | -------------------------------------------- |
-| recaptchaEnabled | Boolean | adds a recaptcha to the patient form section |
+| recaptchaEnabled | Boolean | adds a recaptcha to the patient form section. to be fully effective, fullstack has to update practice.os_recaptcha_enabled in the backend |
 
 ### Redirect
 
@@ -117,31 +131,92 @@ To do this add the following query parameter to the URL, `schedule_consultation=
 
 The widget can be launched from any element on the page. All you have to do is add the class `openchair-widget`, then when that element is clicked, the widget will open.
 
-### Google Analytics
+### Running Development App on a Public URL
 
-The widget captures several events using Google's global site tag. For data to be sent to a Google Analytics account, it requires the following code to be added to `<head>` of the site on any page where the widget is available with the appropriate measurement ID.
+To do cross-browser testing on BrowserStack or other devices you can expose your local build on a public URL.
 
-```html
-<script
-  async
-  src="https://www.googletagmanager.com/gtag/js?id=[GOOGLE-MEASUREMENT-ID]"
-></script>
-<script>
-  window.dataLayer = window.dataLayer || []
-  function gtag() {
-    dataLayer.push(arguments)
-  }
-  gtag('js', new Date())
-  gtag('config', '[GOOGLE-MEASUREMENT-ID]')
-</script>
-```
+1. Install [localtunnel](https://github.com/localtunnel/localtunnel)
+
+- Expose your backend on a public URL
+  - Start up a localtunnel process for the backend port `lt --port 3001`
+  - shut down the BE server
+  - In `config/application.yml` under development change the BASE_URL to be the localtunnel url you just started
+  - restart the server
+- Setup the frontend
+  - Change the `API_BASE_URL` env variable file
+  - Start up a localtunnel process for the frontend port `lt --port 8080`
+- Generate a new widget token
+  - The endpoint URL should be `LOCAL_TUNNEL_BACKEND_URL/admin/schedule_widgets`
+  - You map also need to generate a new authorization token before this will work
+  - generate the token using the practice id and localtunnel url for the front-end
+  - Take the new token and set the `TOKEN` environment variable in the `.dev.env` file
+- Restart the front-end server
+  - Use `npm run start:expose`
+- Your frontend should now be useable on the front-end localtunnel URL
+
+You should now see your app running on the localtunnel url for the front end app
+
+### Analytics and Tag Manager
+
+The widget now sends events to Google Tag Manager if it's present on the page, without requiring any additional scripts. If `window.dataLayer` exists, events are pushed to it with the `event` name and parameters. If `window.dataLayer` is not present but `gtag` is available, events are sent using `gtag('event', ...)`. If neither is present, the widget safely no-ops.
+
+You do not need to add `gtag` if you're already using Google Tag Manager. If you prefer using the global site tag (gtag.js) without GTM, you can still include it and events will be sent via `gtag`.
 
 The table below describes the events and parameters that are captured.
 
-| Name                  | Description                                                    | Parameters                               |
-| --------------------- | -------------------------------------------------------------- | ---------------------------------------- |
-| rg_os_opened          | Fires only once when widget is opened.                         |                                          |
-| rg_os_appt_selection  | Fires when a user selects date and time for their appointment. | selected_datetime <br> selected_location |
-| rg_os_form_successful | Fires when form is successfully sent to backend.               | booked_datetime <br> booked_location     |
-| rg_os_form_error      | Fires if there is an error sending form                        | form_error                               |
+| Name                          | Description                                                    | Parameters                                      |
+| ----------------------------- | -------------------------------------------------------------- | ----------------------------------------------- |
+| rg_os_opened                  | Fires only once when widget is opened.                         |                                                 |
+| rg_os_find_appointments_click | Fires when user clicks the "Find Appointments" button.         | selected_date <br> selected_time <br> timestamp |
+| rg_os_appt_selection          | Fires when a user selects date and time for their appointment. | selected_datetime <br> selected_location        |
+| rg_os_form_successful         | Fires when form is successfully sent to backend.               | booked_datetime <br> booked_location            |
+| rg_os_form_error              | Fires if there is an error sending form                        | form_error                                      |
 
+#### Consuming events with Google Tag Manager
+
+If your site uses Google Tag Manager, you can listen for all widget events with a single trigger and forward them to GA4 (or any other tool):
+
+1. Create Data Layer Variables
+
+- In GTM → Variables → New → Data Layer Variable, create the following (all default settings):
+  - `DLV - selected_date` with Data Layer Variable Name `selected_date`
+  - `DLV - selected_time` with Data Layer Variable Name `selected_time`
+  - `DLV - timestamp` with Data Layer Variable Name `timestamp`
+  - `DLV - selected_datetime` with Data Layer Variable Name `selected_datetime`
+  - `DLV - selected_location` with Data Layer Variable Name `selected_location`
+  - `DLV - booked_datetime` with Data Layer Variable Name `booked_datetime`
+  - `DLV - booked_location` with Data Layer Variable Name `booked_location`
+  - `DLV - form_error` with Data Layer Variable Name `form_error`
+
+2. Create a single Custom Event Trigger
+
+- Triggers → New → Trigger Type: Custom Event
+- Event name: `rg_os_.*`
+- Check "Use regex matching"
+- Name it `OpenChair Events`
+
+3. Create a GA4 Event tag (catch-all)
+
+- Tags → New → Tag Type: Google Analytics: GA4 Event
+- Configuration Tag: select your GA4 Configuration tag
+- Event Name: `{{Event}}` (built-in variable) to pass through the data layer event name
+- Event Parameters: add the variables you created; they will populate when present
+  - `selected_date` → `{{DLV - selected_date}}`
+  - `selected_time` → `{{DLV - selected_time}}`
+  - `timestamp` → `{{DLV - timestamp}}`
+  - `selected_datetime` → `{{DLV - selected_datetime}}`
+  - `selected_location` → `{{DLV - selected_location}}`
+  - `booked_datetime` → `{{DLV - booked_datetime}}`
+  - `booked_location` → `{{DLV - booked_location}}`
+  - `form_error` → `{{DLV - form_error}}`
+- Triggering: `OpenChair Events`
+
+Notes
+
+- You can also create separate tags per event if you prefer specific mappings. The event names are: `rg_os_opened`, `rg_os_find_appointments_click`, `rg_os_appt_selection`, `rg_os_form_successful`, plus `rg_os_form_error` for failures.
+- The widget pushes objects like:
+
+```js
+{ event: 'rg_os_find_appointments_click', selected_date: '2025-08-20', selected_time: '10:00', timestamp: '2025-08-20T10:00:00Z' }
+{ event: 'rg_os_form_successful', booked_datetime: '2025-08-20T10:00:00Z', booked_location: 'Downtown' }
+```
