@@ -1,4 +1,4 @@
-  # OpenChair Online Scheduling Widget
+# OpenChair Online Scheduling Widget
 
 Embeddable online scheduling widget built with React.
 
@@ -88,6 +88,13 @@ Navigate to the source code of a Rooster Grin site that has been onboarded and a
 | postalCode          | Boolean          | If true, form will display field as "Postal Code" instead of "Zip Code".                                                                                                                                                               |
 | textAreaLabel       | String           | Lets you customize the text area label. Defaults to "Message".                                                                                                                                                                         |
 | textAreaRequired    | Boolean          | A value of `true` will make the text area a required field.                                                                                                                                                                            |
+
+**hidden option alert**
+
+when you're using filterOptions, we can dynamically set the below depending on which button the user clicks
+> adultPatientsOnly, adultPatientsMinAge, minorPatientsOnly, minorPatientsMinAge, minorPatientsMaxAge
+
+if you’d like to do this for any client, plz send the details to fullstack and make sure any 'hardcoded' params are not in the widget script
 
 ### Contact & Messages
 
