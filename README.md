@@ -57,6 +57,7 @@ Navigate to the source code of a Rooster Grin site that has been onboarded and a
 | customMainButtonLabel  | String  | Customizes the button label on the widget. Default is 'Schedule Consultation'.                     |
 | customSubHeaderMessage | String  | Customizes the message shown above 'Choose a date'. Default is 'Schedule an Initial Consultation'. |
 | hideMainButton         | Boolean | If true, the main widget button will be hidden                                                     |
+| hideTooltip            | Boolean | If true, the schedule consultation tooltip popup will not appear on the main button                |
 | hideTooltipHeader      | Boolean | If true, the main button will not show the number of available appointments in the week            |
 | mainButtonLeft         | Boolean | If true, it will open the widget on the left side                                                  |
 
@@ -71,6 +72,23 @@ Navigate to the source code of a Rooster Grin site that has been onboarded and a
 | sortPerSpecificLocations     | Boolean | This will sort the locations list by the order of IDs in the `specificLocations` array. Requires `specificLocations` array to determine the order to sort by. |
 | specificLocations            | Array   | If you pass an array of location ids in, only those locations an their bookings will be available to end users                                                |
 | zipCodeSearch                | Boolean | This will add an input to enter a zipcode to sort practices by distance                                                                                       |
+| zipCodeRadius                | Integer | Sets the search radius in miles for zipcode search. Default is 35.                                                                                          |
+| zipCodeShowAllLocations      | Boolean | zipCodeSearch defaults to only show locations with appointments. Include this as `true` to show all locations.                                                       |
+
+### Appointment Type Filters
+
+| Property Name         | Type   | Value                                                                                          |
+| --------------------- | ------ | ---------------------------------------------------------------------------------------------- |
+| filterOptions         | Object | Presents the user with buttons. Clicking a button filters the bookings to specific appt types. |
+| filterOptionsNoButton | Array  | Filters the bookings to specific appt types.                                                   |
+
+**hidden option alert**
+
+when you're using filterOptions, we can dynamically set the below depending on which button the user clicks
+
+> adultPatientsOnly, adultPatientsMinAge, minorPatientsOnly, minorPatientsMinAge, minorPatientsMaxAge
+
+if you’d like to do this for any client, plz send the details to fullstack and make sure none of these params are in the widget script
 
 ### Patient Form Configuration
 
@@ -89,21 +107,14 @@ Navigate to the source code of a Rooster Grin site that has been onboarded and a
 | textAreaLabel       | String           | Lets you customize the text area label. Defaults to "Message".                                                                                                                                                                         |
 | textAreaRequired    | Boolean          | A value of `true` will make the text area a required field.                                                                                                                                                                            |
 
-**hidden option alert**
-
-when you're using filterOptions, we can dynamically set the below depending on which button the user clicks
-> adultPatientsOnly, adultPatientsMinAge, minorPatientsOnly, minorPatientsMinAge, minorPatientsMaxAge
-
-if you’d like to do this for any client, plz send the details to fullstack and make sure any 'hardcoded' params are not in the widget script
-
 ### Contact & Messages
 
-| Property Name              | Type    | Value                                                                                                                                                                                                             |
-| -------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| customMessage              | String  | Adds a message to the bottom of the widget container on the appointment selection screen. Overrides contactPhoneNumber.                                                                                                                         |
+| Property Name              | Type    | Value                                                                                                                                                                                                                                            |
+| -------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| customMessage              | String  | Adds a message to the bottom of the widget container on the appointment selection screen. Overrides contactPhoneNumber.                                                                                                                          |
 | contactPhoneNumber         | String  | Adds a generic message with a clickable phone number to the bottom of the widget container on the appointment selection screen. Must be formatted as all numbers and include the country code. e.g.: `14155551234`. Overridden by customMessage. |
-| hideMessageOnMapRow        | Boolean | This will hide the customMessage or contactPhoneNumber message on the appointment selection screen.                                                                                                               |
-| showPhoneMessageOnDropdown | Boolean | This will show the customMessage or contactPhoneNumber message on the bottom of the initial widget container.                                                                                                     |
+| hideMessageOnMapRow        | Boolean | This will hide the customMessage or contactPhoneNumber message on the appointment selection screen.                                                                                                                                              |
+| showPhoneMessageOnDropdown | Boolean | This will show the customMessage or contactPhoneNumber message on the bottom of the initial widget container.                                                                                                                                    |
 
 ### Widget Rendering
 
@@ -115,18 +126,19 @@ if you’d like to do this for any client, plz send the details to fullstack and
 
 Protect your form submissions from automated spam and ensure genuine patient bookings.
 
-| Property Name    | Type    | Value                                        |
-| ---------------- | ------- | -------------------------------------------- |
+| Property Name    | Type    | Value                                                                                                                                     |
+| ---------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | recaptchaEnabled | Boolean | adds a recaptcha to the patient form section. to be fully effective, fullstack has to update practice.os_recaptcha_enabled in the backend |
 
 ### Redirect
 
 Redirect users after successful form submission. Usually used for conversion tracking. See Google Analytics section below for related info.
 
-| Property Name   | Type    | Value                                                                       |
-| --------------- | ------- | --------------------------------------------------------------------------- |
-| redirect        | String  | Send the user to a thank you page or elsewhere.                             |
-| skipAttribution | Boolean | On successful submit, skip attribution and go straight to the redirect url. |
+| Property Name       | Type    | Value                                                                                                                                                                                                       |
+| ------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| redirect            | String  | String == URL. Send the user to a thank you page or elsewhere.                                                                                                                                              |
+| skipAttribution     | Boolean | On successful submit, skip attribution and go straight to the redirect url.                                                                                                                                 |
+| locationRedirectMap | Object  | example: `{"123-456": "https://yahoo.com", "987-654": "https://bing.com"},`. If `redirect` is provided, it will be used as a fallback for locs not found in the map. Can also be used with skipAttribution. |
 
 ### Automatically open widget on page load
 
